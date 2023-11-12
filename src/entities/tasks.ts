@@ -3,6 +3,7 @@ import sequelizeConnect from '../db/conection';
 import { Category } from './category';
 import { Importance } from './importanceTask';
 import { Status } from './status';
+import { User } from './user';
 
 
 export class Task extends Model {
@@ -64,10 +65,10 @@ Task.init(
       }
     },
     user_ref: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       references: {
-        model: '',
-        key: ''
+        model: 'User',
+        key: 'user_id'
       }
     }
   },
@@ -89,4 +90,9 @@ Task.belongsTo(Status, {
   foreignKey: 'status',
   as: 'status'
 });
+Task.belongsTo(User, {
+  foreignKey: 'user_ref',
+  as: 'user'
+})
+
 

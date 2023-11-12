@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import { Sequelize } from 'sequelize';
 import cors from 'cors';
 import sequelizeConnect from '../../db/conection';
+import userRouter from '../../routes/user/route';
 
 
 export class Server {
@@ -22,7 +23,7 @@ export class Server {
   async initDatabase() {
     try {
       await this.sequelize.authenticate();
-      console.log('Connection to the database has been established successfully.');
+      console.log('Connection to the database has been established successfully. 🚀');
     } catch (error) {
       console.error('Unable to connect to the database:', error);
     }
@@ -30,7 +31,7 @@ export class Server {
 
   listen() {
     this.app.listen(this.port, () => {
-      console.log(`Listening server on port ${this.port}`);
+      console.log(`Listening server on port http://localhost:${this.port}`);
     });
   }
 
@@ -42,10 +43,9 @@ export class Server {
       methods: ['GET', 'POST', 'PATCH', 'DELETE', 'UPDATE'],
       allowedHeaders: ['Content-Type', 'authorization']
     });
-
     // Define routes
-    this.app.use('/user', userCors);
-    this.app.use('/user', )
+    this.app.use('/user', cors());
+    this.app.use('/user', userRouter)
   }
   /**
   * Función para parciar el json

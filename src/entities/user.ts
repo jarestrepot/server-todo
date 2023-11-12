@@ -4,13 +4,13 @@ import sequelizeConnect from '../db/conection';
 
 
 export class User extends Model {
-  private id?: number;
-  private name?: string;
-  private lastName?: string | null;
-  private password?: string;
-  private email?: string;
-  private user_id?: number;
-  private location?: string | null;
+  public id!: number;
+  public name!: string;
+  public lastName!: string | null;
+  public password!: string;
+  public email!: string;
+  public user_id!: number;
+  public location!: string | null;
 }
 
 User.init(
@@ -59,14 +59,10 @@ User.init(
       }
     },
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       primaryKey: true,
-      validate: {
-        isInt: true,
-        isNull: false
-      }
     },
     location: {
       type: DataTypes.STRING,
