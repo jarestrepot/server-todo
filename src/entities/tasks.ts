@@ -7,13 +7,13 @@ import { User } from './user';
 
 
 export class Task extends Model {
-  private id!: number;
-  private title!: string;
-  private description!: string;
-  private category!: number;
-  private importance !: number;
-  private status !: number;
-  private user_ref !: number;
+  public id!: number;
+  public title!: string;
+  public description!: string;
+  public category!: number;
+  public importance !: number;
+  public status !: number;
+  public user_ref !: number;
 }
 
 Task.init(
@@ -80,15 +80,15 @@ Task.init(
 
 Task.belongsTo(Category, {
   foreignKey: 'category',
-  as: 'category'
+  as: 'taskCategory'
 });
 Task.belongsTo(Importance, {
   foreignKey: 'importance',
-  as: 'importance'
+  as: 'taskImportance'
 });
 Task.belongsTo(Status, {
   foreignKey: 'status',
-  as: 'status'
+  as: 'taskStatus'
 });
 Task.belongsTo(User, {
   foreignKey: 'user_ref',

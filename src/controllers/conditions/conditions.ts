@@ -19,6 +19,13 @@ class Conditions {
       where: values
     }
   }
+
+  static queryWhereAndAttributes(values: Object, nameAttribute: string[]){
+    return {
+      attributes: nameAttribute,
+      where: values
+    }
+  }
   /**
      * Consulta general con cualquier valor de la BD
      * @param condition

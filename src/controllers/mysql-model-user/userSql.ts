@@ -8,7 +8,7 @@ export class UserModel{
   static createUserMysql = async ({name, lastName, email, password, location }: Iuser): Promise<User | null> => {
     try {
       const [user, created] = await User.findOrCreate({
-        where: { email: email },
+        where: { email },
         defaults: {
           name: name,
           lastName: lastName,
@@ -18,6 +18,7 @@ export class UserModel{
           location: location ?? null,
         }
       });
+      console.log(created);
       if (!created) return null;
       return user;
     } catch (error) {
@@ -28,7 +29,7 @@ export class UserModel{
 
   static loginUserMysql = async ({email, password}:IregisterUser ):Promise<User | null> => {
     try {
-      const existUser = await User.findOne(
+      const existUser:User | null = await User.findOne(
         Conditions.queryWhere({email: email})
       );
       if (!existUser || !await bcrypt.compare(password, existUser.password) ) return null;
@@ -37,6 +38,12 @@ export class UserModel{
       console.log('Error login user:', error);
       return null;
     }
+  }
+
+  static getUserIdMysql = async (id:string): Promise<User | null> =>  {
+    return await User.findOne(
+      Conditions.queryWhere({ id: id })
+    );
   }
 }
 
