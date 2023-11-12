@@ -9,7 +9,7 @@ export class User extends Model {
   public lastName!: string | null;
   public password!: string;
   public email!: string;
-  public user_id!: number;
+  public user_id!: string;
   public location!: string | null;
 }
 
