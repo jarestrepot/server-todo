@@ -1,9 +1,10 @@
-import { Sequelize, literal } from 'sequelize';
+import { literal, where } from 'sequelize';
 import { Category } from "../../entities/category";
 import { Importance } from "../../entities/importanceTask";
 import { Status } from "../../entities/status";
 import { Task } from "../../entities/tasks";
 import { ITask } from "../../interface/task";
+import Conditions from '../conditions/conditions';
 
 
 export class TaskModel {
@@ -69,5 +70,24 @@ export class TaskModel {
       console.log('Error: ', error);
       return [];
     }
+  }
+
+  static deleteTask = async (taskId: string):Promise <number> => {
+    return await Task.destroy(
+      Conditions.queryWhere({ id: taskId })
+    );
+  }
+
+  static updateTask = async({ id, title, description, category, importance, status }: ITask) => {
+
+    const [affectedCount]: number[] = await Task.update(
+      { title, description, category, importance, status}, 
+      { where: {id} }
+    );
+    return affectedCount;
+  }
+
+  static getTaskId = async (id: number):Promise<Task | null> => {
+    return await Task.findOne({where: {id} });
   }
 }
