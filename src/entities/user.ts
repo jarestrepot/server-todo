@@ -62,6 +62,7 @@ User.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
+      primaryKey: true,
       validate: {
         isInt: true,
         isNull: false

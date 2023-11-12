@@ -1,5 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelizeConnect from '../db/conection';
+import { Category } from './category';
+import { Importance } from './importanceTask';
+import { Status } from './status';
 
 
 export class Task extends Model {
@@ -42,22 +45,22 @@ Task.init(
     category:{
       type: DataTypes.INTEGER,
       references: {
-        model: '',
-        key: ''
+        model: 'Category',
+        key: 'code'
       }
     },
     importance: {
       type: DataTypes.INTEGER,
       references: {
-        model: '',
-        key: ''
+        model: 'Importance',
+        key: 'code'
       }
     },
     status: {
       type: DataTypes.INTEGER,
       references: {
-        model: '',
-        key: ''
+        model: 'Status',
+        key: 'code'
       }
     },
     user_ref: {
@@ -73,3 +76,17 @@ Task.init(
     tableName: 'tasks'
   }
 );
+
+Task.belongsTo(Category, {
+  foreignKey: 'category',
+  as: 'category'
+});
+Task.belongsTo(Importance, {
+  foreignKey: 'importance',
+  as: 'importance'
+});
+Task.belongsTo(Status, {
+  foreignKey: 'status',
+  as: 'status'
+});
+
