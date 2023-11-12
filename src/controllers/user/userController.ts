@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { UserModel } from '../mysql-model-user/userSql'
 import { User } from '../../entities/user';
+import { tokenSing } from '../../helpers/generateTokenUser';
 export class UserServiceApp {
 
   static async createUser({ body }: Request , res: Response){
@@ -20,7 +21,8 @@ export class UserServiceApp {
       const { email, password } = body
       const resultRegister:User | null= await UserModel.loginUserMysql(body);
       if (!resultRegister) return res.status(404).json({ msg: `Incorrect values (${email}, ${password}) or you are not registered`});
-      return res.status(200).json({ resultRegister });
+      // **  Generate the token
+      return res.status(200).json({ resultRegister, token: await tokenSing(resultRegister) });
     } catch (error) {
       
     }
