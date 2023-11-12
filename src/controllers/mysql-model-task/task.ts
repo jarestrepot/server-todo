@@ -81,7 +81,7 @@ export class TaskModel {
   static updateTask = async({ id, title, description, category, importance, status }: ITask) => {
 
     const [affectedCount]: number[] = await Task.update(
-      { title, description, category, importance, status}, 
+      { title, description, category, importance, status }, 
       { where: {id} }
     );
     return affectedCount;

@@ -9,6 +9,8 @@ router.post('/newTask/:id', UserServiceApp.newTask);
 router.delete('/deleteTask/:id', UserServiceApp.deleteTask);
 router.patch('/updateTask/:id', UserServiceApp.updateTask);
 router.get('/task/:id', UserServiceApp.getTask);
+router.patch('/modify/:id', UserServiceApp.modifyUser);
+router.delete('/delete/:id', UserServiceApp.deleteUser);
 
 
 export default router;

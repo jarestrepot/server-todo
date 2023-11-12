@@ -9,6 +9,7 @@ import { ImportanceModel } from '../mater-data/importance';
 import { StatusModel } from '../mater-data/status';
 import { ITask } from '../../interface/task';
 import CONSTANTES from '../../config/constantes';
+import { IError } from '../../interface/error';
 export class UserServiceApp {
 
   static async createUser({ body }: Request , res: Response){
@@ -63,7 +64,7 @@ export class UserServiceApp {
     
   }
 
-  static async deleteTask({body, params}:Request, res: Response) {
+  static async deleteTask({ params }:Request, res: Response) {
     const { id } = params;
     const resultDelete:number = await TaskModel.deleteTask(id);
     if (resultDelete > 0) return res.status(200).json({ msg: `Task delete successfully`})
@@ -89,9 +90,29 @@ export class UserServiceApp {
     } catch (error) {
       return res.status(500).json({ msg: CONSTANTES.ERROR_SERVER });
     }
+  }
 
+  static async modifyUser({ body, params }: Request, res: Response){
+    try {
+      const { newPassword } = body;
+      const updateUser:User | IError = await UserModel.updateUser(body, Number(params.id), newPassword);
+      if (updateUser instanceof User){
+        return res.status(200).json({ user: updateUser, tasks: await TaskModel.userAndTask(updateUser.user_id) });
+      }
+      return res.status(400).json({ Error: updateUser });
+    } catch (error) {
+      return res.status(500).json({ msg: CONSTANTES.ERROR_SERVER });
+    }
+  }
 
-
+  static async deleteUser({params}:Request, res: Response){
+    try {
+      const { id } = params;
+      if (await UserModel.deleteUser(Number(id)) > 0) return res.status(200).json({ msg: `User delete successfully`});
+      return res.status(203).json({ msg: `User not found`})
+    } catch (error) {
+      return res.status(500).json({ msg: CONSTANTES.ERROR_SERVER });
+    }
   }
 
 }
