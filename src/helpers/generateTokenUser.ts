@@ -17,7 +17,11 @@ export const tokenSing = async ({name, email, user_id}: User) => {
   )
 }
 
-
+/**
+ * Verify the token
+ * @param token 
+ * @returns Token or null
+ */
 export const verifyToken = async (token: string): Promise<string | jwt.JwtPayload | null> => {
   try {
     return jwt.verify(token, process.env.SECRET_KEY ?? 'salleFron@Grupo02TheDreamTeam')
