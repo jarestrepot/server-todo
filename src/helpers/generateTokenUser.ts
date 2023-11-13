@@ -1,6 +1,6 @@
-import { NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { User } from "../entities/user";
+require('dotenv').config();
 
 
 export const tokenSing = async ({name, email, user_id}: User) => {

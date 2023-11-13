@@ -1,4 +1,4 @@
-import { literal, where } from 'sequelize';
+import { Op, literal, where } from 'sequelize';
 import { Category } from "../../entities/category";
 import { Importance } from "../../entities/importanceTask";
 import { Status } from "../../entities/status";
@@ -74,20 +74,30 @@ export class TaskModel {
 
   static deleteTask = async (taskId: string):Promise <number> => {
     return await Task.destroy(
-      Conditions.queryWhere({ id: taskId })
+      Conditions.queryWhere({ user_ref: taskId })
     );
   }
 
-  static updateTask = async({ id, title, description, category, importance, status }: ITask) => {
+  static updateTask = async({ id, title, description, category, importance, status }: ITask, user_ref:string) => {
 
     const [affectedCount]: number[] = await Task.update(
       { title, description, category, importance, status }, 
-      { where: {id} }
+      { where: {
+          [Op.and]: [
+            {
+              id
+            },
+            { 
+              user_ref
+            }
+          ]
+        } 
+      }
     );
     return affectedCount;
   }
 
-  static getTaskId = async (id: number):Promise<Task | null> => {
-    return await Task.findOne({where: {id} });
+  static getTaskId = async (id: string):Promise<Task | null> => {
+    return await Task.findOne({where: {user_ref: id} });
   }
 }

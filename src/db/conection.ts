@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-require('dotenv').config();
+
 
 const db = process.env.MYSQL_ADDON_DB ?? 'todolistapp';
 const root = process.env.MYSQL_ADDON_USER ?? 'root';

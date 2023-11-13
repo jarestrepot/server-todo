@@ -20,7 +20,6 @@ export class UserModel{
           location: location ?? null,
         }
       });
-      console.log(created);
       if (!created) return null;
       return user;
     } catch (error) {
@@ -44,14 +43,14 @@ export class UserModel{
 
   static getUserIdMysql = async (id:string): Promise<User | null> =>  {
     return await User.findOne(
-      Conditions.queryWhere({ id: id })
+      Conditions.queryWhere({ user_id: id })
     );
   }
 
-  static updateUser = async ({ name, lastName, email, password, location }: User, idUser: number, newPassword:string): Promise< IError | User> => {
+  static updateUser = async ({ name, lastName, email, password, location }: User, idUser: string, newPassword:string): Promise< IError | User> => {
     try {
       
-      const findUser: User | null = await User.findOne({ where: { id: idUser }});
+      const findUser: User | null = await User.findOne({ where: { user_id: idUser }});
   
       if (!findUser) return {error: "User not found", found:false }
       if (!await bcrypt.compare(password, findUser.password)) return {error: "Password is incorrect", found:false}
@@ -72,9 +71,9 @@ export class UserModel{
     }
   }
 
-  static deleteUser = async (id:number):Promise<number> => {
+  static deleteUser = async (user_id:string):Promise<number> => {
     return await User.destroy(
-      Conditions.queryWhere({id})
+      Conditions.queryWhere({ user_id })
     )
   }
 }

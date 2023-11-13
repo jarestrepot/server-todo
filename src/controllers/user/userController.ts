@@ -45,12 +45,13 @@ export class UserServiceApp {
     try {
       const { id } = params;
       const getUserId: User | null = await UserModel.getUserIdMysql(id);
-      if (!getUserId) return res.status(404).json({ msg: `User with id (${id}) does not exist` });
+      if (!getUserId) return res.status(404).json({ msg: `User with id (**${id.slice(32, -1)}**) does not exist` });
       const newTask: Task | null = await TaskModel.createTask(body, getUserId.user_id);
       if (!newTask) return res.status(500).json({ msg: `It was not possible to create the task` });
 
       return res.status(201).json({
         msg: `Task created successfully`, task: [{
+          id: newTask.id,
           title: newTask.title,
           description: newTask.description,
           category: await CategoryModel.getCategory(body.category),
@@ -71,9 +72,12 @@ export class UserServiceApp {
     return res.status(202).json({ msg: `Task not found`});
   }
 
-  static async updateTask({ body }:Request, res: Response) {
+  static async updateTask({ body, params }:Request, res: Response) {
     try {
-      const resultUpdate:number = await TaskModel.updateTask(body);
+      const { id } = params;
+      const userTask: User |null = await  UserModel.getUserIdMysql(id);
+      if (!userTask) return res.status(404).json({ msg: `There is no user with that id **${id.slice(32, -1)}**`})
+      const resultUpdate:number = await TaskModel.updateTask(body, id);
       if (resultUpdate > 0) return res.status(200).json({ msg: 'Task updated successfully'});
       return res.status(202).json({ msg: `Task not found` });
     } catch (error) {
@@ -84,7 +88,7 @@ export class UserServiceApp {
   static async getTask({ params }: Request, res: Response){
     try {
       const { id } = params;
-      const task: Task | null = await TaskModel.getTaskId(Number(id));
+      const task: Task | null = await TaskModel.getTaskId(id);
       if(!task) return res.status(302).json({ msg: 'Task not found' });
       return res.status(200).json({ task });
     } catch (error) {
@@ -95,7 +99,7 @@ export class UserServiceApp {
   static async modifyUser({ body, params }: Request, res: Response){
     try {
       const { newPassword } = body;
-      const updateUser:User | IError = await UserModel.updateUser(body, Number(params.id), newPassword);
+      const updateUser:User | IError = await UserModel.updateUser(body, params.id, newPassword);
       if (updateUser instanceof User){
         return res.status(200).json({ user: updateUser, tasks: await TaskModel.userAndTask(updateUser.user_id) });
       }
@@ -105,10 +109,10 @@ export class UserServiceApp {
     }
   }
 
-  static async deleteUser({params}:Request, res: Response){
+  static async deleteUser({ params }:Request, res: Response){
     try {
       const { id } = params;
-      if (await UserModel.deleteUser(Number(id)) > 0) return res.status(200).json({ msg: `User delete successfully`});
+      if (await UserModel.deleteUser(id) > 0) return res.status(200).json({ msg: `User delete successfully`});
       return res.status(203).json({ msg: `User not found`})
     } catch (error) {
       return res.status(500).json({ msg: CONSTANTES.ERROR_SERVER });

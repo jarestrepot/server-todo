@@ -83,12 +83,22 @@ TaskModel.userAndTask = (user_ref) => __awaiter(void 0, void 0, void 0, function
     }
 });
 TaskModel.deleteTask = (taskId) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield tasks_1.Task.destroy(conditions_1.default.queryWhere({ id: taskId }));
+    return yield tasks_1.Task.destroy(conditions_1.default.queryWhere({ user_ref: taskId }));
 });
-TaskModel.updateTask = ({ id, title, description, category, importance, status }) => __awaiter(void 0, void 0, void 0, function* () {
-    const [affectedCount] = yield tasks_1.Task.update({ title, description, category, importance, status }, { where: { id } });
+TaskModel.updateTask = ({ id, title, description, category, importance, status }, user_ref) => __awaiter(void 0, void 0, void 0, function* () {
+    const [affectedCount] = yield tasks_1.Task.update({ title, description, category, importance, status }, { where: {
+            [sequelize_1.Op.and]: [
+                {
+                    id
+                },
+                {
+                    user_ref
+                }
+            ]
+        }
+    });
     return affectedCount;
 });
 TaskModel.getTaskId = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield tasks_1.Task.findOne({ where: { id } });
+    return yield tasks_1.Task.findOne({ where: { user_ref: id } });
 });

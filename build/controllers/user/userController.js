@@ -60,12 +60,13 @@ class UserServiceApp {
                 const { id } = params;
                 const getUserId = yield userSql_1.UserModel.getUserIdMysql(id);
                 if (!getUserId)
-                    return res.status(404).json({ msg: `User with id (${id}) does not exist` });
+                    return res.status(404).json({ msg: `User with id (**${id.slice(32, -1)}**) does not exist` });
                 const newTask = yield task_1.TaskModel.createTask(body, getUserId.user_id);
                 if (!newTask)
                     return res.status(500).json({ msg: `It was not possible to create the task` });
                 return res.status(201).json({
                     msg: `Task created successfully`, task: [{
+                            id: newTask.id,
                             title: newTask.title,
                             description: newTask.description,
                             category: yield category_1.CategoryModel.getCategory(body.category),
@@ -88,10 +89,14 @@ class UserServiceApp {
             return res.status(202).json({ msg: `Task not found` });
         });
     }
-    static updateTask({ body }, res) {
+    static updateTask({ body, params }, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const resultUpdate = yield task_1.TaskModel.updateTask(body);
+                const { id } = params;
+                const userTask = yield userSql_1.UserModel.getUserIdMysql(id);
+                if (!userTask)
+                    return res.status(404).json({ msg: `There is no user with that id **${id.slice(32, -1)}**` });
+                const resultUpdate = yield task_1.TaskModel.updateTask(body, id);
                 if (resultUpdate > 0)
                     return res.status(200).json({ msg: 'Task updated successfully' });
                 return res.status(202).json({ msg: `Task not found` });
@@ -105,7 +110,7 @@ class UserServiceApp {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { id } = params;
-                const task = yield task_1.TaskModel.getTaskId(Number(id));
+                const task = yield task_1.TaskModel.getTaskId(id);
                 if (!task)
                     return res.status(302).json({ msg: 'Task not found' });
                 return res.status(200).json({ task });
@@ -119,7 +124,7 @@ class UserServiceApp {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { newPassword } = body;
-                const updateUser = yield userSql_1.UserModel.updateUser(body, Number(params.id), newPassword);
+                const updateUser = yield userSql_1.UserModel.updateUser(body, params.id, newPassword);
                 if (updateUser instanceof user_1.User) {
                     return res.status(200).json({ user: updateUser, tasks: yield task_1.TaskModel.userAndTask(updateUser.user_id) });
                 }
@@ -134,7 +139,7 @@ class UserServiceApp {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { id } = params;
-                if ((yield userSql_1.UserModel.deleteUser(Number(id))) > 0)
+                if ((yield userSql_1.UserModel.deleteUser(id)) > 0)
                     return res.status(200).json({ msg: `User delete successfully` });
                 return res.status(203).json({ msg: `User not found` });
             }

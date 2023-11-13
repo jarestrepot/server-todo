@@ -59,7 +59,6 @@ UserModel.createUserMysql = ({ name, lastName, email, password, location }) => _
                 location: location !== null && location !== void 0 ? location : null,
             }
         });
-        console.log(created);
         if (!created)
             return null;
         return user;
@@ -82,11 +81,11 @@ UserModel.loginUserMysql = ({ email, password }) => __awaiter(void 0, void 0, vo
     }
 });
 UserModel.getUserIdMysql = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield user_1.User.findOne(conditions_1.default.queryWhere({ id: id }));
+    return yield user_1.User.findOne(conditions_1.default.queryWhere({ user_id: id }));
 });
 UserModel.updateUser = ({ name, lastName, email, password, location }, idUser, newPassword) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const findUser = yield user_1.User.findOne({ where: { id: idUser } });
+        const findUser = yield user_1.User.findOne({ where: { user_id: idUser } });
         if (!findUser)
             return { error: "User not found", found: false };
         if (!(yield bcrypt_1.default.compare(password, findUser.password)))
@@ -105,6 +104,6 @@ UserModel.updateUser = ({ name, lastName, email, password, location }, idUser, n
         return { error: constantes_1.default.ERROR_REQUEST, found: false };
     }
 });
-UserModel.deleteUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield user_1.User.destroy(conditions_1.default.queryWhere({ id }));
+UserModel.deleteUser = (user_id) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield user_1.User.destroy(conditions_1.default.queryWhere({ user_id }));
 });

@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyToken = exports.tokenSing = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+require('dotenv').config();
 const tokenSing = ({ name, email, user_id }) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     return jsonwebtoken_1.default.sign({
