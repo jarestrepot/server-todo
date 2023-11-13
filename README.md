@@ -113,6 +113,7 @@ https://server-todo-list-app.cleverapps.io/user/updateTask/${iduser}
 https://server-todo-list-app.cleverapps.io/user/modify/${idUser}
 ```
 *BODY*
+```json
 {
     "name": "Name",
     "lastName": "LastName",
@@ -121,7 +122,7 @@ https://server-todo-list-app.cleverapps.io/user/modify/${idUser}
     "email": "example@example.com",
     "location": "Barcelona" ?? null
 }
-
+```
 **RESPONSE** ✅
 ```json
 {
