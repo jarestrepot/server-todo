@@ -4,6 +4,7 @@ const express_1 = require("express");
 const userController_1 = require("../../controllers/user/userController");
 const auth_1 = require("../../helpers/auth");
 const router = (0, express_1.Router)();
+router.get('/', userController_1.UserServiceApp.taskPlugins);
 router.post('/login', userController_1.UserServiceApp.loginUser);
 router.post('/register', userController_1.UserServiceApp.createUser);
 router.post('/newTask/:id', auth_1.checkAuth, userController_1.UserServiceApp.newTask);

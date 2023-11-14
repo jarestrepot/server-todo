@@ -3,7 +3,7 @@ import { UserServiceApp } from '../../controllers/user/userController';
 import { checkAuth } from '../../helpers/auth';
 
 const router =  Router();
-
+router.get('/', UserServiceApp.taskPlugins)
 router.post('/login', UserServiceApp.loginUser );
 router.post('/register', UserServiceApp.createUser);
 router.post('/newTask/:id', checkAuth, UserServiceApp.newTask);

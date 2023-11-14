@@ -10,7 +10,17 @@ import { StatusModel } from '../mater-data/status';
 import { ITask } from '../../interface/task';
 import CONSTANTES from '../../config/constantes';
 import { IError } from '../../interface/error';
+import { IplugisTask } from '../../interface/pluginsTask';
 export class UserServiceApp {
+
+  static async taskPlugins(req: Request, res: Response){
+    try {
+      const { allCategory, allImportance, allStatus }: IplugisTask = await UserModel.getAccessories();
+      return res.status(200).json({ category: allCategory, importance: allImportance, status: allStatus });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   static async createUser({ body }: Request , res: Response){
     const {name, lastName} = body;

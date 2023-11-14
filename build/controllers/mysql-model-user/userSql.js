@@ -38,14 +38,42 @@ var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserModel = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const sequelize_1 = require("sequelize");
 const user_1 = require("../../entities/user");
 const crypto = __importStar(require("crypto"));
 const conditions_1 = __importDefault(require("../conditions/conditions"));
 const constantes_1 = __importDefault(require("../../config/constantes"));
+const status_1 = require("../../entities/status");
+const importanceTask_1 = require("../../entities/importanceTask");
+const category_1 = require("../../entities/category");
 class UserModel {
 }
 exports.UserModel = UserModel;
 _a = UserModel;
+UserModel.getAccessories = () => __awaiter(void 0, void 0, void 0, function* () {
+    const allStatus = yield status_1.Status.findAll({
+        attributes: [
+            [(0, sequelize_1.literal)('name'), 'Status'],
+            [(0, sequelize_1.literal)('code'), 'codeStatus']
+        ],
+        raw: true
+    });
+    const allImportance = yield importanceTask_1.Importance.findAll({
+        attributes: [
+            [(0, sequelize_1.literal)('name'), 'Importance'],
+            [(0, sequelize_1.literal)('code'), 'codeImportance']
+        ],
+        raw: true
+    });
+    const allCategory = yield category_1.Category.findAll({
+        attributes: [
+            [(0, sequelize_1.literal)('name'), 'Category'],
+            [(0, sequelize_1.literal)('code'), 'codeCategory']
+        ],
+        raw: true
+    });
+    return { allCategory, allImportance, allStatus };
+});
 UserModel.createUserMysql = ({ name, lastName, email, password, location }) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const [user, created] = yield user_1.User.findOrCreate({
