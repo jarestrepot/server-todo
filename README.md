@@ -2,6 +2,68 @@
 
 ## API Reference
 
+### Task complements
+
+**GET** 🌐
+
+```bash
+https://server-todo-list-app.cleverapps.io/user
+```
+**RESPONSE** ✅
+```json
+{
+    "category": [
+        {
+            "Category": "Personal",
+            "codeCategory": 1
+        },
+        {
+            "Category": "Health",
+            "codeCategory": 2
+        },
+        {
+            "Category": "Education",
+            "codeCategory": 3
+        },
+        {
+            "Category": "Work",
+            "codeCategory": 4
+        },
+        {
+            "Category": "Others",
+            "codeCategory": 5
+        }
+    ],
+    "importance": [
+        {
+            "Importance": "Low",
+            "codeImportance": 1
+        },
+        {
+            "Importance": "Medium",
+            "codeImportance": 2
+        },
+        {
+            "Importance": "High",
+            "codeImportance": 3
+        }
+    ],
+    "status": [
+        {
+            "Status": "Pending",
+            "codeStatus": 1
+        },
+        {
+            "Status": "In Progress",
+            "codeStatus": 2
+        },
+        {
+            "Status": "Completed",
+            "codeStatus": 3
+        }
+    ]
+}
+```
 ### User registration 
 
 **POST** 🌐
