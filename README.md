@@ -139,7 +139,7 @@ https://server-todo-list-app.cleverapps.io/user/login
 
 **POST** 🌐
 ```hash
-  https://server-todo-list-app.cleverapps.io/user/newTask/${idUser}
+  https://server-todo-list-app.cleverapps.io/user/newTask/${id_user}
 ```
 
 *BODY*
@@ -153,16 +153,16 @@ https://server-todo-list-app.cleverapps.io/user/login
 
 **DELETE** 🌐
 ```hash
-https://server-todo-list-app.cleverapps.io/user/deleteTask/${idTask}
+https://server-todo-list-app.cleverapps.io/user/deleteTask/${user_ref}
 ```
 
 **PATCH** 🌐
 ```hash
-https://server-todo-list-app.cleverapps.io/user/updateTask/${iduser}
+https://server-todo-list-app.cleverapps.io/user/updateTask/${id_user}
 ```
 *BODY*
 ```json
-    "id": 2,
+    "id": 1,
     "title":"Title",
     "description": "Description task",
     "category":Number,
@@ -172,7 +172,7 @@ https://server-todo-list-app.cleverapps.io/user/updateTask/${iduser}
 
 **PATCH** 🌐
 ```hash
-https://server-todo-list-app.cleverapps.io/user/modify/${idUser}
+https://server-todo-list-app.cleverapps.io/user/modify/${id_user}
 ```
 *BODY*
 ```json
@@ -207,7 +207,7 @@ https://server-todo-list-app.cleverapps.io/user/modify/${idUser}
 
 **DELETE** 🌐
 ```hash
-https://server-todo-list-app.cleverapps.io/user/delete/${idUser}
+https://server-todo-list-app.cleverapps.io/user/delete/${id_user}
 ```
 **RESPONSE** ✅
 ```json
