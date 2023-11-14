@@ -1,4 +1,4 @@
-import { Op, literal, where } from 'sequelize';
+import { Op, literal } from 'sequelize';
 import { Category } from "../../entities/category";
 import { Importance } from "../../entities/importanceTask";
 import { Status } from "../../entities/status";

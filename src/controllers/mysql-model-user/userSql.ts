@@ -1,12 +1,45 @@
 import bcrypt from "bcrypt";
+import { literal } from 'sequelize';
 import { IregisterUser, Iuser } from "../../interface/user";
 import { User } from "../../entities/user";
 import * as crypto from 'crypto';
 import Conditions from "../conditions/conditions";
 import CONSTANTES from "../../config/constantes";
 import { IError } from "../../interface/error";
+import { Status } from "../../entities/status";
+import { Importance } from "../../entities/importanceTask";
+import { Category } from "../../entities/category";
+import { IplugisTask } from "../../interface/pluginsTask";
 
 export class UserModel{
+
+  static getAccessories = async (): Promise<IplugisTask> => {
+    const allStatus: Status[] = await Status.findAll({
+      attributes: [
+        [literal('name'), 'Status'],
+        [literal('code'), 'codeStatus']
+      ],
+      raw:true
+    });
+
+    const allImportance = await Importance.findAll({
+      attributes: [
+        [literal('name'), 'Importance'],
+        [literal('code'), 'codeImportance']
+      ],
+      raw:true
+    });
+
+    const allCategory = await Category.findAll({
+      attributes: [
+        [literal('name'), 'Category'],
+        [literal('code'), 'codeCategory']
+      ],
+      raw:true
+    });
+    return { allCategory, allImportance, allStatus };
+  }
+
   static createUserMysql = async ({name, lastName, email, password, location }: Iuser): Promise<User | null> => {
     try {
       const [user, created] = await User.findOrCreate({

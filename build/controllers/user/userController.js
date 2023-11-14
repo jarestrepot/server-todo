@@ -22,6 +22,17 @@ const importance_1 = require("../mater-data/importance");
 const status_1 = require("../mater-data/status");
 const constantes_1 = __importDefault(require("../../config/constantes"));
 class UserServiceApp {
+    static taskPlugins(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { allCategory, allImportance, allStatus } = yield userSql_1.UserModel.getAccessories();
+                return res.status(200).json({ category: allCategory, importance: allImportance, status: allStatus });
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
+    }
     static createUser({ body }, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, lastName } = body;
