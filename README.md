@@ -143,13 +143,15 @@ https://server-todo-list-app.cleverapps.io/user/login
 ```
 
 *BODY*
-{
-    "title":"Example",
-    "description": "Example...",
-    "category":2,
-    "importance": 1,
-    "status":1
-}
+```json
+    {
+        "title":"Example",
+        "description": "Example...",
+        "category":2,
+        "importance": 1,
+        "status":1
+    }
+```
 
 **DELETE** 🌐
 ```hash
