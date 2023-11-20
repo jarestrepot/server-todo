@@ -36,7 +36,6 @@ TaskModel.createTask = ({ title, description, category, importance, status }, us
         });
     }
     catch (error) {
-        console.log('Failed to create ', error);
         return null;
     }
 });
@@ -86,7 +85,8 @@ TaskModel.deleteTask = (taskId) => __awaiter(void 0, void 0, void 0, function* (
     return yield tasks_1.Task.destroy(conditions_1.default.queryWhere({ user_ref: taskId }));
 });
 TaskModel.updateTask = ({ id, title, description, category, importance, status }, user_ref) => __awaiter(void 0, void 0, void 0, function* () {
-    const [affectedCount] = yield tasks_1.Task.update({ title, description, category, importance, status }, { where: {
+    const [affectedCount] = yield tasks_1.Task.update({ title, description, category, importance, status }, {
+        where: {
             [sequelize_1.Op.and]: [
                 {
                     id

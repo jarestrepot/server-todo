@@ -19,6 +19,7 @@ export class UserServiceApp {
       return res.status(200).json({ category: allCategory, importance: allImportance, status: allStatus });
     } catch (error) {
       console.error(error);
+      return res.status(500).json({ Error: CONSTANTES.ERROR_SERVER });
     }
   }
 
@@ -31,7 +32,7 @@ export class UserServiceApp {
       // **  Generate the token
       return res.status(201).json({ resultCreated, token: await tokenSing(resultCreated) });
     } catch (error) {
-      return res.status(500).json({ msg: CONSTANTES.ERROR_SERVER });
+      return res.status(500).json({ Error: CONSTANTES.ERROR_SERVER });
     }
   }
 
@@ -39,13 +40,13 @@ export class UserServiceApp {
     try {
       const { email, password } = body
       const resultRegister:User | null= await UserModel.loginUserMysql(body);
-      if (!resultRegister) return res.status(404).json({ msg: `Incorrect values (${email}, ${password}) or you are not registered`});
+      if (!resultRegister) return res.status(404).json({ Error: `Incorrect values (${email}, ${password}) or you are not registered`});
       const tasksUser: ITask[] | [] = await TaskModel.userAndTask(resultRegister.user_id);
       // **  Generate the token
       return res.status(200).json({ dataUser: resultRegister, token: await tokenSing(resultRegister), tasks: tasksUser });
     } catch (error) {
       console.error('Error', error);
-      return res.status(500).json({ msg: CONSTANTES.ERROR_SERVER });
+      return res.status(500).json({ Error: CONSTANTES.ERROR_SERVER });
     }
   }
 
@@ -55,9 +56,9 @@ export class UserServiceApp {
     try {
       const { id } = params;
       const getUserId: User | null = await UserModel.getUserIdMysql(id);
-      if (!getUserId) return res.status(404).json({ msg: `User with id (**${id.slice(32, -1)}**) does not exist` });
+      if (!getUserId) return res.status(404).json({ Error: `User with id (**${id.slice(32, -1)}**) does not exist` });
       const newTask: Task | null = await TaskModel.createTask(body, getUserId.user_id);
-      if (!newTask) return res.status(500).json({ msg: `It was not possible to create the task` });
+      if (!newTask) return res.status(500).json({ Error: `It was not possible to create the task` });
 
       return res.status(201).json({
         msg: `Task created successfully`, task: [{
@@ -70,7 +71,7 @@ export class UserServiceApp {
         }]
       });
     } catch (error) {
-      return res.status(500).json({ msg: CONSTANTES.ERROR_SERVER });
+      return res.status(500).json({ Error: CONSTANTES.ERROR_SERVER });
     }
     
   }
@@ -86,12 +87,12 @@ export class UserServiceApp {
     try {
       const { id } = params;
       const userTask: User |null = await  UserModel.getUserIdMysql(id);
-      if (!userTask) return res.status(404).json({ msg: `There is no user with that id **${id.slice(32, -1)}**`})
+      if (!userTask) return res.status(404).json({ Error: `There is no user with that id **${id.slice(32, -1)}**`})
       const resultUpdate:number = await TaskModel.updateTask(body, id);
       if (resultUpdate > 0) return res.status(200).json({ msg: 'Task updated successfully'});
       return res.status(202).json({ msg: `Task not found` });
     } catch (error) {
-      return res.status(500).json({ msg : CONSTANTES.ERROR_SERVER });
+      return res.status(500).json({ Error : CONSTANTES.ERROR_SERVER });
     }
   }
 
@@ -102,7 +103,7 @@ export class UserServiceApp {
       if(!task) return res.status(302).json({ msg: 'Task not found' });
       return res.status(200).json({ task });
     } catch (error) {
-      return res.status(500).json({ msg: CONSTANTES.ERROR_SERVER });
+      return res.status(500).json({ Error: CONSTANTES.ERROR_SERVER });
     }
   }
 
@@ -115,7 +116,7 @@ export class UserServiceApp {
       }
       return res.status(400).json({ Error: updateUser });
     } catch (error) {
-      return res.status(500).json({ msg: CONSTANTES.ERROR_SERVER });
+      return res.status(500).json({ Error: CONSTANTES.ERROR_SERVER });
     }
   }
 
@@ -125,7 +126,7 @@ export class UserServiceApp {
       if (await UserModel.deleteUser(id) > 0) return res.status(200).json({ msg: `User delete successfully`});
       return res.status(203).json({ msg: `User not found`})
     } catch (error) {
-      return res.status(500).json({ msg: CONSTANTES.ERROR_SERVER });
+      return res.status(500).json({ Error: CONSTANTES.ERROR_SERVER });
     }
   }
 
