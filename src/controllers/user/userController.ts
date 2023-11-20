@@ -40,7 +40,7 @@ export class UserServiceApp {
     try {
       const { email, password } = body
       const resultRegister:User | null= await UserModel.loginUserMysql(body);
-      if (!resultRegister) return res.status(404).json({ Error: `Incorrect values (${email}, ${password}) or you are not registered`});
+      if (!resultRegister) return res.status(404).json({ Error: CONSTANTES.INCORRECT_VALUES });
       const tasksUser: ITask[] | [] = await TaskModel.userAndTask(resultRegister.user_id);
       // **  Generate the token
       return res.status(200).json({ dataUser: resultRegister, token: await tokenSing(resultRegister), tasks: tasksUser });
