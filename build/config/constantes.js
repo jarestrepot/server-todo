@@ -9,6 +9,7 @@ const CONSTANTES = {
     SENT_LOG: 'sent',
     DATE_YEAR: `${date.getFullYear()}`,
     DATE_COMPLETE_: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
+    INCORRECT_VALUES: 'Unregistered user or incorrect fields'
 };
 Object.freeze(CONSTANTES);
 exports.default = CONSTANTES;

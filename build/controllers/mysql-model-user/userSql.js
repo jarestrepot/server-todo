@@ -117,7 +117,7 @@ UserModel.updateUser = ({ name, lastName, email, password, location }, idUser, n
         if (!findUser)
             return { error: "User not found", found: false };
         if (!(yield bcrypt_1.default.compare(password, findUser.password)))
-            return { error: "Password is incorrect", found: false };
+            return { error: constantes_1.default.INCORRECT_VALUES, found: false };
         return yield findUser.update({
             name,
             lastName,

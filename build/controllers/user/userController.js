@@ -55,7 +55,7 @@ class UserServiceApp {
                 const { email, password } = body;
                 const resultRegister = yield userSql_1.UserModel.loginUserMysql(body);
                 if (!resultRegister)
-                    return res.status(404).json({ Error: `Incorrect values (${email}, ${password}) or you are not registered` });
+                    return res.status(404).json({ Error: constantes_1.default.INCORRECT_VALUES });
                 const tasksUser = yield task_1.TaskModel.userAndTask(resultRegister.user_id);
                 // **  Generate the token
                 return res.status(200).json({ dataUser: resultRegister, token: yield (0, generateTokenUser_1.tokenSing)(resultRegister), tasks: tasksUser });
