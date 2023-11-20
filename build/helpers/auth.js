@@ -25,6 +25,6 @@ const checkAuth = ({ headers }, res, next) => __awaiter(void 0, void 0, void 0, 
         next();
         return;
     }
-    return res.status(401).json({ message: ' Acces denied ❌' });
+    return res.status(401).json({ Error: ' Acces denied ❌' });
 });
 exports.checkAuth = checkAuth;

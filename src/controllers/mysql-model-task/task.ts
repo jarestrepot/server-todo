@@ -23,7 +23,6 @@ export class TaskModel {
       );
       
     } catch (error) {
-      console.log('Failed to create ', error);
       return null;
     }
   }

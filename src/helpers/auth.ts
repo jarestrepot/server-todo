@@ -15,7 +15,7 @@ export const checkAuth = async ({ headers }: Request, res: Response, next: NextF
     next();
     return;
   }
-  return res.status(401).json({ message: ' Acces denied ❌' });
+  return res.status(401).json({ Error: ' Acces denied ❌' });
 }
 
 

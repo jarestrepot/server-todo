@@ -30,6 +30,7 @@ class UserServiceApp {
             }
             catch (error) {
                 console.error(error);
+                return res.status(500).json({ Error: constantes_1.default.ERROR_SERVER });
             }
         });
     }
@@ -44,7 +45,7 @@ class UserServiceApp {
                 return res.status(201).json({ resultCreated, token: yield (0, generateTokenUser_1.tokenSing)(resultCreated) });
             }
             catch (error) {
-                return res.status(500).json({ msg: constantes_1.default.ERROR_SERVER });
+                return res.status(500).json({ Error: constantes_1.default.ERROR_SERVER });
             }
         });
     }
@@ -54,14 +55,14 @@ class UserServiceApp {
                 const { email, password } = body;
                 const resultRegister = yield userSql_1.UserModel.loginUserMysql(body);
                 if (!resultRegister)
-                    return res.status(404).json({ msg: `Incorrect values (${email}, ${password}) or you are not registered` });
+                    return res.status(404).json({ Error: `Incorrect values (${email}, ${password}) or you are not registered` });
                 const tasksUser = yield task_1.TaskModel.userAndTask(resultRegister.user_id);
                 // **  Generate the token
                 return res.status(200).json({ dataUser: resultRegister, token: yield (0, generateTokenUser_1.tokenSing)(resultRegister), tasks: tasksUser });
             }
             catch (error) {
                 console.error('Error', error);
-                return res.status(500).json({ msg: constantes_1.default.ERROR_SERVER });
+                return res.status(500).json({ Error: constantes_1.default.ERROR_SERVER });
             }
         });
     }
@@ -71,10 +72,10 @@ class UserServiceApp {
                 const { id } = params;
                 const getUserId = yield userSql_1.UserModel.getUserIdMysql(id);
                 if (!getUserId)
-                    return res.status(404).json({ msg: `User with id (**${id.slice(32, -1)}**) does not exist` });
+                    return res.status(404).json({ Error: `User with id (**${id.slice(32, -1)}**) does not exist` });
                 const newTask = yield task_1.TaskModel.createTask(body, getUserId.user_id);
                 if (!newTask)
-                    return res.status(500).json({ msg: `It was not possible to create the task` });
+                    return res.status(500).json({ Error: `It was not possible to create the task` });
                 return res.status(201).json({
                     msg: `Task created successfully`, task: [{
                             id: newTask.id,
@@ -87,7 +88,7 @@ class UserServiceApp {
                 });
             }
             catch (error) {
-                return res.status(500).json({ msg: constantes_1.default.ERROR_SERVER });
+                return res.status(500).json({ Error: constantes_1.default.ERROR_SERVER });
             }
         });
     }
@@ -106,14 +107,14 @@ class UserServiceApp {
                 const { id } = params;
                 const userTask = yield userSql_1.UserModel.getUserIdMysql(id);
                 if (!userTask)
-                    return res.status(404).json({ msg: `There is no user with that id **${id.slice(32, -1)}**` });
+                    return res.status(404).json({ Error: `There is no user with that id **${id.slice(32, -1)}**` });
                 const resultUpdate = yield task_1.TaskModel.updateTask(body, id);
                 if (resultUpdate > 0)
                     return res.status(200).json({ msg: 'Task updated successfully' });
                 return res.status(202).json({ msg: `Task not found` });
             }
             catch (error) {
-                return res.status(500).json({ msg: constantes_1.default.ERROR_SERVER });
+                return res.status(500).json({ Error: constantes_1.default.ERROR_SERVER });
             }
         });
     }
@@ -127,7 +128,7 @@ class UserServiceApp {
                 return res.status(200).json({ task });
             }
             catch (error) {
-                return res.status(500).json({ msg: constantes_1.default.ERROR_SERVER });
+                return res.status(500).json({ Error: constantes_1.default.ERROR_SERVER });
             }
         });
     }
@@ -142,7 +143,7 @@ class UserServiceApp {
                 return res.status(400).json({ Error: updateUser });
             }
             catch (error) {
-                return res.status(500).json({ msg: constantes_1.default.ERROR_SERVER });
+                return res.status(500).json({ Error: constantes_1.default.ERROR_SERVER });
             }
         });
     }
@@ -155,7 +156,7 @@ class UserServiceApp {
                 return res.status(203).json({ msg: `User not found` });
             }
             catch (error) {
-                return res.status(500).json({ msg: constantes_1.default.ERROR_SERVER });
+                return res.status(500).json({ Error: constantes_1.default.ERROR_SERVER });
             }
         });
     }
