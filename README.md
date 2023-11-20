@@ -2,6 +2,68 @@
 
 ## API Reference
 
+### Task complements
+
+**GET** 🌐
+
+```bash
+https://server-todo-list-app.cleverapps.io/user
+```
+**RESPONSE** ✅
+```json
+{
+    "category": [
+        {
+            "Category": "Personal",
+            "codeCategory": 1
+        },
+        {
+            "Category": "Health",
+            "codeCategory": 2
+        },
+        {
+            "Category": "Education",
+            "codeCategory": 3
+        },
+        {
+            "Category": "Work",
+            "codeCategory": 4
+        },
+        {
+            "Category": "Others",
+            "codeCategory": 5
+        }
+    ],
+    "importance": [
+        {
+            "Importance": "Low",
+            "codeImportance": 1
+        },
+        {
+            "Importance": "Medium",
+            "codeImportance": 2
+        },
+        {
+            "Importance": "High",
+            "codeImportance": 3
+        }
+    ],
+    "status": [
+        {
+            "Status": "Pending",
+            "codeStatus": 1
+        },
+        {
+            "Status": "In Progress",
+            "codeStatus": 2
+        },
+        {
+            "Status": "Completed",
+            "codeStatus": 3
+        }
+    ]
+}
+```
 ### User registration 
 
 **POST** 🌐
@@ -77,30 +139,32 @@ https://server-todo-list-app.cleverapps.io/user/login
 
 **POST** 🌐
 ```hash
-  https://server-todo-list-app.cleverapps.io/user/newTask/${idUser}
+  https://server-todo-list-app.cleverapps.io/user/newTask/${id_user}
 ```
 
 *BODY*
-{
-    "title":"Example",
-    "description": "Example...",
-    "category":2,
-    "importance": 1,
-    "status":1
-}
+```json
+    {
+        "title":"Example",
+        "description": "Example...",
+        "category":2,
+        "importance": 1,
+        "status":1
+    }
+```
 
 **DELETE** 🌐
 ```hash
-https://server-todo-list-app.cleverapps.io/user/deleteTask/${idTask}
+https://server-todo-list-app.cleverapps.io/user/deleteTask/${user_ref}
 ```
 
 **PATCH** 🌐
 ```hash
-https://server-todo-list-app.cleverapps.io/user/updateTask/${iduser}
+https://server-todo-list-app.cleverapps.io/user/updateTask/${id_user}
 ```
 *BODY*
 ```json
-    "id": 2,
+    "id": 1,
     "title":"Title",
     "description": "Description task",
     "category":Number,
@@ -110,7 +174,7 @@ https://server-todo-list-app.cleverapps.io/user/updateTask/${iduser}
 
 **PATCH** 🌐
 ```hash
-https://server-todo-list-app.cleverapps.io/user/modify/${idUser}
+https://server-todo-list-app.cleverapps.io/user/modify/${id_user}
 ```
 *BODY*
 ```json
@@ -145,7 +209,7 @@ https://server-todo-list-app.cleverapps.io/user/modify/${idUser}
 
 **DELETE** 🌐
 ```hash
-https://server-todo-list-app.cleverapps.io/user/delete/${idUser}
+https://server-todo-list-app.cleverapps.io/user/delete/${id_user}
 ```
 **RESPONSE** ✅
 ```json
