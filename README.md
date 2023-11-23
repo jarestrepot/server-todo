@@ -191,7 +191,7 @@ https://server-todo-list-app.cleverapps.io/user/modify/${id_user}
 ```json
 {
     "status": 200
-    "dataUser": {
+    "user": {
         "id": 2,
         "name": "Your name",
         "lastName": "Your lastName",
