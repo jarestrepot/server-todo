@@ -124,7 +124,7 @@ export class UserServiceApp {
     try {
       const { id } = params;
       if (await UserModel.deleteUser(id) > 0) return res.status(200).json({ msg: `User delete successfully`});
-      return res.status(203).json({ msg: `User not found`})
+      return res.status(203).json({ Error: `User not found`})
     } catch (error) {
       return res.status(500).json({ Error: CONSTANTES.ERROR_SERVER });
     }
