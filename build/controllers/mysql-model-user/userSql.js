@@ -115,9 +115,9 @@ UserModel.updateUser = ({ name, lastName, email, password, location }, idUser, n
     try {
         const findUser = yield user_1.User.findOne({ where: { user_id: idUser } });
         if (!findUser)
-            return { error: "User not found", found: false };
+            return { Error: "User not found", found: false };
         if (!(yield bcrypt_1.default.compare(password, findUser.password)))
-            return { error: constantes_1.default.INCORRECT_VALUES, found: false };
+            return { Error: constantes_1.default.INCORRECT_VALUES, found: false };
         return yield findUser.update({
             name,
             lastName,
@@ -129,7 +129,7 @@ UserModel.updateUser = ({ name, lastName, email, password, location }, idUser, n
         });
     }
     catch (error) {
-        return { error: constantes_1.default.ERROR_REQUEST, found: false };
+        return { Error: constantes_1.default.ERROR_REQUEST, found: false };
     }
 });
 UserModel.deleteUser = (user_id) => __awaiter(void 0, void 0, void 0, function* () {

@@ -45,7 +45,7 @@ export class Server {
     });
     // Define routes
     this.app.use('/user', cors());
-    this.app.use('/user', userRouter)
+    this.app.use('/user', userRouter);
   }
   /**
   * Función para parciar el json

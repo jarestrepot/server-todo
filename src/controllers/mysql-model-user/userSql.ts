@@ -85,8 +85,8 @@ export class UserModel{
       
       const findUser: User | null = await User.findOne({ where: { user_id: idUser }});
   
-      if (!findUser) return {error: "User not found", found:false }
-      if (!await bcrypt.compare(password, findUser.password)) return {error: CONSTANTES.INCORRECT_VALUES, found:false}
+      if (!findUser) return {Error: "User not found", found:false }
+      if (!await bcrypt.compare(password, findUser.password)) return {Error: CONSTANTES.INCORRECT_VALUES, found:false}
 
       return await findUser.update(
         { 
@@ -100,7 +100,7 @@ export class UserModel{
         }
       );
     } catch (error) {
-      return { error: CONSTANTES.ERROR_REQUEST , found:false }
+      return { Error: CONSTANTES.ERROR_REQUEST , found:false }
     }
   }
 

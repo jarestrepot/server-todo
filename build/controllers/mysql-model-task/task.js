@@ -99,5 +99,5 @@ TaskModel.updateTask = ({ id, title, description, category, importance, status }
     return affectedCount;
 });
 TaskModel.getTaskId = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield tasks_1.Task.findOne({ where: { user_ref: id } });
+    return yield tasks_1.Task.findOne({ where: { id } });
 });

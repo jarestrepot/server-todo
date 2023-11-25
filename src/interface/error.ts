@@ -1,5 +1,5 @@
 export interface IError {
-  error: string;
+  Error: string;
   found: boolean;
 }
 
