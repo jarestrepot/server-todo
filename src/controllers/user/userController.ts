@@ -89,7 +89,8 @@ export class UserServiceApp {
       const userTask: User |null = await  UserModel.getUserIdMysql(id);
       if (!userTask) return res.status(404).json({ Error: `There is no user with that id **${id.slice(32, -1)}**`})
       const resultUpdate:number = await TaskModel.updateTask(body, id);
-      if (resultUpdate > 0) return res.status(200).json({ msg: 'Task updated successfully'});
+      if (resultUpdate > 0) 
+        return res.status(200).json({ msg: 'Task updated successfully', task: await TaskModel.getTaskId(body.id) });
       return res.status(202).json({ msg: `Task not found` });
     } catch (error) {
       return res.status(500).json({ Error : CONSTANTES.ERROR_SERVER });

@@ -110,7 +110,7 @@ class UserServiceApp {
                     return res.status(404).json({ Error: `There is no user with that id **${id.slice(32, -1)}**` });
                 const resultUpdate = yield task_1.TaskModel.updateTask(body, id);
                 if (resultUpdate > 0)
-                    return res.status(200).json({ msg: 'Task updated successfully' });
+                    return res.status(200).json({ msg: 'Task updated successfully', task: yield task_1.TaskModel.getTaskId(body.id) });
                 return res.status(202).json({ msg: `Task not found` });
             }
             catch (error) {

@@ -97,6 +97,6 @@ export class TaskModel {
   }
 
   static getTaskId = async (id: string):Promise<Task | null> => {
-    return await Task.findOne({where: {user_ref: id} });
+    return await Task.findOne({where: { id } });
   }
 }
