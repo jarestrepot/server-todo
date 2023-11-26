@@ -90,7 +90,7 @@ export class UserServiceApp {
       if (!userTask) return res.status(404).json({ Error: `There is no user with that id **${id.slice(32, -1)}**`})
       const resultUpdate:number = await TaskModel.updateTask(body, id);
       if (resultUpdate > 0) 
-        return res.status(200).json({ msg: 'Task updated successfully', task: await TaskModel.getTaskId(body.id) });
+        return res.status(200).json({ msg: 'Task updated successfully', task: await TaskModel.getTaskId(body.id)  });
       return res.status(202).json({ msg: `Task not found` });
     } catch (error) {
       return res.status(500).json({ Error : CONSTANTES.ERROR_SERVER });
@@ -100,7 +100,7 @@ export class UserServiceApp {
   static async getTask({ params }: Request, res: Response){
     try {
       const { id } = params;
-      const task: Task | null = await TaskModel.getTaskId(id);
+      const task: Task | [] = await TaskModel.getTaskId(id);
       if(!task) return res.status(302).json({ msg: 'Task not found' });
       return res.status(200).json({ task });
     } catch (error) {

@@ -29,7 +29,7 @@ export class TaskModel {
 
   static userAndTask = async (user_ref: string): Promise<ITask[] | []> => {
     try {
-      const tasksUser = await Task.findAll(
+      const tasksUser:Task[] = await Task.findAll(
         {
           attributes: [
             'id',
@@ -96,7 +96,37 @@ export class TaskModel {
     return affectedCount;
   }
 
-  static getTaskId = async (id: string):Promise<Task | null> => {
-    return await Task.findOne({where: { id } });
+  static getTaskId = async (id: string):Promise<Task | []> => {
+    return await Task.findOne(
+      { 
+        attributes: [
+          'id',
+          'title',
+          'description',
+          [literal('taskCategory.name'), 'Category'],
+          [literal('taskImportance.name'), 'Importance'],
+          [literal('taskStatus.name'), 'Status']
+        ],
+        where: { id } ,
+        include: [
+          {
+            model: Category,
+            as: 'taskCategory',
+            attributes: []
+          },
+          {
+            model: Importance,
+            as: 'taskImportance',
+            attributes: []
+          },
+          {
+            model: Status,
+            as: 'taskStatus',
+            attributes: []
+          }
+        ],
+        raw: true
+      }
+    ) ?? []
   }
 }

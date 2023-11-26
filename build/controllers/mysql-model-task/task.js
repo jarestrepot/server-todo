@@ -99,5 +99,34 @@ TaskModel.updateTask = ({ id, title, description, category, importance, status }
     return affectedCount;
 });
 TaskModel.getTaskId = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield tasks_1.Task.findOne({ where: { id } });
+    var _b;
+    return (_b = yield tasks_1.Task.findOne({
+        attributes: [
+            'id',
+            'title',
+            'description',
+            [(0, sequelize_1.literal)('taskCategory.name'), 'Category'],
+            [(0, sequelize_1.literal)('taskImportance.name'), 'Importance'],
+            [(0, sequelize_1.literal)('taskStatus.name'), 'Status']
+        ],
+        where: { id },
+        include: [
+            {
+                model: category_1.Category,
+                as: 'taskCategory',
+                attributes: []
+            },
+            {
+                model: importanceTask_1.Importance,
+                as: 'taskImportance',
+                attributes: []
+            },
+            {
+                model: status_1.Status,
+                as: 'taskStatus',
+                attributes: []
+            }
+        ],
+        raw: true
+    })) !== null && _b !== void 0 ? _b : [];
 });
