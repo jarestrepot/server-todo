@@ -15,9 +15,9 @@ export class TaskModel {
         {
           title,
           description,
-          category,
-          importance,
-          status,
+          category: Number(category),
+          importance: Number(importance),
+          status: Number(status),
           user_ref: user_id,
         }
       );
