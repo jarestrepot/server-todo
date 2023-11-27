@@ -76,14 +76,17 @@ class UserServiceApp {
                 const newTask = yield task_1.TaskModel.createTask(body, getUserId.user_id);
                 if (!newTask)
                     return res.status(500).json({ Error: `It was not possible to create the task` });
+                const { Importance } = yield importance_1.ImportanceModel.getImportance(body.importance);
+                const { Category } = yield category_1.CategoryModel.getCategory(body.category);
+                const { Status } = yield status_1.StatusModel.getStatus(body.status);
                 return res.status(201).json({
                     msg: `Task created successfully`, task: {
                         id: newTask.id,
                         title: newTask.title,
                         description: newTask.description,
-                        category: yield category_1.CategoryModel.getCategory(body.category),
-                        importance: yield importance_1.ImportanceModel.getImportance(body.importance),
-                        status: yield status_1.StatusModel.getStatus(body.status)
+                        Category,
+                        Importance,
+                        Status
                     }
                 });
             }
