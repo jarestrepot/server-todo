@@ -8,8 +8,9 @@ export class CategoryModel {
   static async getCategory(id: number): Promise<Category | null> {
     return await Category.findOne(
       {
-        attributes: ['name'],
-        where: {id: id}
+        attributes: ['Category'],
+        where: {id: id},
+        raw:true
       }
     )
   }

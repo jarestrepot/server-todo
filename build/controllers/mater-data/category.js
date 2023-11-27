@@ -15,8 +15,9 @@ class CategoryModel {
     static getCategory(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield category_1.Category.findOne({
-                attributes: ['name'],
-                where: { id: id }
+                attributes: ['Category'],
+                where: { id: id },
+                raw: true
             });
         });
     }

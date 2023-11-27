@@ -15,8 +15,9 @@ class StatusModel {
     static getStatus(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield status_1.Status.findOne({
-                attributes: ['name'],
-                where: { id }
+                attributes: ['Status'],
+                where: { id },
+                raw: true
             });
         });
     }

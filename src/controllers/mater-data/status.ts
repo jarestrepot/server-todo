@@ -5,8 +5,9 @@ export class StatusModel {
   static async getStatus(id: number): Promise<Status | null> {
     return await Status.findOne(
       {
-        attributes: ['name'],
-        where: { id }
+        attributes: ['Status'],
+        where: { id },
+        raw:true
       }
     )
   }

@@ -57,7 +57,6 @@ export class UserServiceApp {
       const { id } = params;
       const getUserId: User | null = await UserModel.getUserIdMysql(id);
       if (!getUserId) return res.status(404).json({ Error: `User with id (**${id.slice(32, -1)}**) does not exist` });
-      console.log(body)
       const newTask: Task | null = await TaskModel.createTask(body, getUserId.user_id);
       if (!newTask) return res.status(500).json({ Error: `It was not possible to create the task` });
 

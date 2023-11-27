@@ -15,8 +15,9 @@ class ImportanceModel {
     static getImportance(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield importanceTask_1.Importance.findOne({
-                attributes: ['name'],
-                where: { id }
+                attributes: ['Importance'],
+                where: { id },
+                raw: true
             });
         });
     }
