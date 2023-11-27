@@ -7,7 +7,7 @@ export class ImportanceModel {
   static async  getImportance(id: number): Promise<Importance | []> {
     return await Importance.findOne(
       {
-        attributes: [[literal('name'), 'Importance']],
+        // attributes: [[literal('name'), 'Importance']],
         where: { id },
         raw: true
       }

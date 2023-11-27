@@ -10,14 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ImportanceModel = void 0;
-const sequelize_1 = require("sequelize");
 const importanceTask_1 = require("../../entities/importanceTask");
 class ImportanceModel {
     static getImportance(id) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             return (_a = yield importanceTask_1.Importance.findOne({
-                attributes: [[(0, sequelize_1.literal)('name'), 'Importance']],
+                // attributes: [[literal('name'), 'Importance']],
                 where: { id },
                 raw: true
             })) !== null && _a !== void 0 ? _a : [];

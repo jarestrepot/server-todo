@@ -10,14 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StatusModel = void 0;
-const sequelize_1 = require("sequelize");
 const status_1 = require("../../entities/status");
 class StatusModel {
     static getStatus(id) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             return (_a = yield status_1.Status.findOne({
-                attributes: [[(0, sequelize_1.literal)('name'), 'Status']],
+                // attributes: [[literal('name'), 'Status']],
                 where: { id },
                 raw: true
             })) !== null && _a !== void 0 ? _a : [];
