@@ -77,14 +77,14 @@ class UserServiceApp {
                 if (!newTask)
                     return res.status(500).json({ Error: `It was not possible to create the task` });
                 return res.status(201).json({
-                    msg: `Task created successfully`, task: [{
-                            id: newTask.id,
-                            title: newTask.title,
-                            description: newTask.description,
-                            category: yield category_1.CategoryModel.getCategory(body.category),
-                            importance: yield importance_1.ImportanceModel.getImportance(body.importance),
-                            status: yield status_1.StatusModel.getStatus(body.status)
-                        }]
+                    msg: `Task created successfully`, task: {
+                        id: newTask.id,
+                        title: newTask.title,
+                        description: newTask.description,
+                        category: yield category_1.CategoryModel.getCategory(body.category),
+                        importance: yield importance_1.ImportanceModel.getImportance(body.importance),
+                        status: yield status_1.StatusModel.getStatus(body.status)
+                    }
                 });
             }
             catch (error) {

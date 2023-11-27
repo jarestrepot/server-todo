@@ -61,14 +61,14 @@ export class UserServiceApp {
       if (!newTask) return res.status(500).json({ Error: `It was not possible to create the task` });
 
       return res.status(201).json({
-        msg: `Task created successfully`, task: [{
+        msg: `Task created successfully`, task: {
           id: newTask.id,
           title: newTask.title,
           description: newTask.description,
           category: await CategoryModel.getCategory(body.category),
           importance: await ImportanceModel.getImportance(body.importance),
           status: await StatusModel.getStatus(body.status)
-        }]
+        }
       });
     } catch (error) {
       return res.status(500).json({ Error: CONSTANTES.ERROR_SERVER });
