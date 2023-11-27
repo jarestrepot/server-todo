@@ -14,12 +14,13 @@ const sequelize_1 = require("sequelize");
 const importanceTask_1 = require("../../entities/importanceTask");
 class ImportanceModel {
     static getImportance(id) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            return yield importanceTask_1.Importance.findOne({
+            return (_a = yield importanceTask_1.Importance.findOne({
                 attributes: [[(0, sequelize_1.literal)('name'), 'Importance']],
                 where: { id },
                 raw: true
-            });
+            })) !== null && _a !== void 0 ? _a : [];
         });
     }
 }

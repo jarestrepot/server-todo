@@ -6,13 +6,13 @@ import Conditions from "../conditions/conditions";
 export class CategoryModel {
 
 
-  static async getCategory(id: number): Promise<Category | null> {
+  static async getCategory(id: number): Promise<Category | []> {
     return await Category.findOne(
       {
         attributes: [[literal('name'), 'Category']],
         where: {id: id},
         raw:true
       }
-    )
+    ) ?? []
   }
 }

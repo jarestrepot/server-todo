@@ -2,9 +2,9 @@ import { DataTypes, Model } from 'sequelize';
 import sequelizeConnect from '../db/conection';
 
 export class Importance extends Model {
-  private id!: number;
-  private code!: string;
-  private name!: string;
+  public id!: number;
+  public code!: string;
+  public name!: string;
 }
 
 Importance.init(

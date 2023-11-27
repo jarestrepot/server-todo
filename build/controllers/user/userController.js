@@ -21,6 +21,9 @@ const category_1 = require("../mater-data/category");
 const importance_1 = require("../mater-data/importance");
 const status_1 = require("../mater-data/status");
 const constantes_1 = __importDefault(require("../../config/constantes"));
+const importanceTask_1 = require("../../entities/importanceTask");
+const category_2 = require("../../entities/category");
+const status_2 = require("../../entities/status");
 class UserServiceApp {
     static taskPlugins(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -76,17 +79,17 @@ class UserServiceApp {
                 const newTask = yield task_1.TaskModel.createTask(body, getUserId.user_id);
                 if (!newTask)
                     return res.status(500).json({ Error: `It was not possible to create the task` });
-                const { Importance } = yield importance_1.ImportanceModel.getImportance(body.importance);
-                const { Category } = yield category_1.CategoryModel.getCategory(body.category);
-                const { Status } = yield status_1.StatusModel.getStatus(body.status);
+                const importance = yield importance_1.ImportanceModel.getImportance(body.importance);
+                const category = yield category_1.CategoryModel.getCategory(body.category);
+                const status = yield status_1.StatusModel.getStatus(body.status);
                 return res.status(201).json({
                     msg: `Task created successfully`, task: {
                         id: newTask.id,
                         title: newTask.title,
                         description: newTask.description,
-                        Category,
-                        Importance,
-                        Status
+                        Category: category instanceof category_2.Category ? category.name : [],
+                        Importance: importance instanceof importanceTask_1.Importance ? importance.name : [],
+                        Status: status instanceof status_2.Status ? status.name : [],
                     }
                 });
             }

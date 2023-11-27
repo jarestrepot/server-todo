@@ -11,6 +11,9 @@ import { ITask } from '../../interface/task';
 import CONSTANTES from '../../config/constantes';
 import { IError } from '../../interface/error';
 import { IplugisTask } from '../../interface/pluginsTask';
+import { Importance } from '../../entities/importanceTask';
+import { Category } from '../../entities/category';
+import { Status } from '../../entities/status';
 export class UserServiceApp {
 
   static async taskPlugins(req: Request, res: Response){
@@ -59,17 +62,17 @@ export class UserServiceApp {
       if (!getUserId) return res.status(404).json({ Error: `User with id (**${id.slice(32, -1)}**) does not exist` });
       const newTask: Task | null = await TaskModel.createTask(body, getUserId.user_id);
       if (!newTask) return res.status(500).json({ Error: `It was not possible to create the task` });
-      const { Importance }: any = await ImportanceModel.getImportance(body.importance)
-      const { Category }: any = await CategoryModel.getCategory(body.category)
-      const { Status }: any = await StatusModel.getStatus(body.status)
+      const importance:Importance | [] = await ImportanceModel.getImportance(body.importance)
+      const category:Category | [] = await CategoryModel.getCategory(body.category)
+      const status:Status | [] = await StatusModel.getStatus(body.status)
       return res.status(201).json({
         msg: `Task created successfully`, task: {
           id: newTask.id,
           title: newTask.title,
           description: newTask.description,
-          Category,
-          Importance,
-          Status
+          Category: category instanceof Category ? category.name : [],
+          Importance: importance instanceof Importance ? importance.name : [] ,
+          Status: status instanceof Status ? status.name : [],
         }
       });
     } catch (error) {
