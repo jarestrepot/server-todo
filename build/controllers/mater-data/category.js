@@ -10,12 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoryModel = void 0;
+const sequelize_1 = require("sequelize");
 const category_1 = require("../../entities/category");
 class CategoryModel {
     static getCategory(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield category_1.Category.findOne({
-                attributes: ['Category'],
+                attributes: [[(0, sequelize_1.literal)('name'), 'Category']],
                 where: { id: id },
                 raw: true
             });
