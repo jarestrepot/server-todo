@@ -73,9 +73,9 @@ export class TaskModel {
     }
   }
 
-  static deleteTask = async (taskId: string):Promise <number> => {
+  static deleteTask = async (id: string):Promise <number> => {
     return await Task.destroy(
-      Conditions.queryWhere({ user_ref: taskId })
+      Conditions.queryWhere({  id })
     );
   }
 
