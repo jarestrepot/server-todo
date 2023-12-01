@@ -131,7 +131,17 @@ https://server-todo-list-app.cleverapps.io/user/login
         "createdAt": "createdAtZ"
     },
     "token": "Access_token"
-    "tasks": []
+    "tasks": [
+                {
+                    "id":number,
+                    "title": "string"
+                    "description": "Otra tarea 2",
+                    "Category": "...",
+                    "Importance": "...",
+                    "Status": "...",
+                    "archived": number
+                }
+            ]
 }
 ```
 ## Important 🛑🤚🏽
@@ -150,6 +160,7 @@ https://server-todo-list-app.cleverapps.io/user/login
         "category":2,
         "importance": 1,
         "status":1
+        "archived": number
     }
 ```
 
@@ -174,8 +185,31 @@ https://server-todo-list-app.cleverapps.io/user/updateTask/${id_user}
 
 **PATCH** 🌐
 ```hash
+https://server-todo-list-app.cleverapps.io/user/arcivedTask/${id_task}
+```
+
+**RESPONSE** ✅
+```json
+    {
+    "msg": "Task updated successfully",
+    "task": {
+        "id": number,
+        "title": "...",
+        "description": "...",
+        "Category": "...",
+        "Importance": "...",
+        "Status": "...",
+        "archived": 1 | 0 
+        }
+    }
+````
+
+
+**PATCH** 🌐
+```hash
 https://server-todo-list-app.cleverapps.io/user/modify/${id_user}
 ```
+
 *BODY*
 ```json
 {
@@ -216,3 +250,5 @@ https://server-todo-list-app.cleverapps.io/user/delete/${id_user}
   "status": 200
   "msg": "User delete successfully"
 ```
+
+<hr>
