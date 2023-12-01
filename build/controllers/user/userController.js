@@ -139,6 +139,7 @@ class UserServiceApp {
     static archivedTask({ params }, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                console.log('archived task');
                 const { id } = params;
                 const task = yield task_1.TaskModel.archivedTask(id);
                 if (typeof task === 'number' && task > 0)
