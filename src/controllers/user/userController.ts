@@ -113,7 +113,6 @@ export class UserServiceApp {
 
   static async archivedTask({ params }: Request, res: Response){
     try {
-      console.log('archived task')
       const { id } = params;
       const task: number | string  = await TaskModel.archivedTask(id)
       if (typeof task === 'number' && task > 0 )  return res.status(200).json({ msg:'Task updated successfully' ,task: await TaskModel.getTaskId(id)})
