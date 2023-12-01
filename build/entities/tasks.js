@@ -66,6 +66,9 @@ Task.init({
             model: 'User',
             key: 'user_id'
         }
+    },
+    created: {
+        type: sequelize_1.DataTypes.TINYINT,
     }
 }, {
     sequelize: conection_1.default,

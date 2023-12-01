@@ -70,6 +70,9 @@ Task.init(
         model: 'User',
         key: 'user_id'
       }
+    },
+    created: {
+      type: DataTypes.TINYINT,
     }
   },
   {
