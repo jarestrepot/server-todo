@@ -81,9 +81,9 @@ export class UserServiceApp {
 
   static async deleteTask({ params }:Request, res: Response) {
     const { id } = params;
-    const resultDelete:number = await TaskModel.deleteTask(id);
+    const resultDelete: number = await TaskModel.deleteTask(id);
     if (resultDelete > 0) return res.status(200).json({ msg: `Task delete successfully`})
-    return res.status(202).json({ msg: `Task not found`});
+    return res.status(202).json({ Error: `Task not found`});
   }
 
   static async updateTask({ body, params }:Request, res: Response) {
