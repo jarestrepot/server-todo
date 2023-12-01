@@ -14,6 +14,7 @@ export class Task extends Model {
   public importance !: number;
   public status !: number;
   public user_ref !: number;
+  public archived !: number;
 }
 
 Task.init(
@@ -71,8 +72,10 @@ Task.init(
         key: 'user_id'
       }
     },
-    created: {
+    archived: {
       type: DataTypes.TINYINT,
+      defaultValue: 0,
+      allowNull: true,
     }
   },
   {

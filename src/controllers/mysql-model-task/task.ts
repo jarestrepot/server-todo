@@ -1,10 +1,11 @@
-import { Op, literal } from 'sequelize';
+import { Op, literal, where } from 'sequelize';
 import { Category } from "../../entities/category";
 import { Importance } from "../../entities/importanceTask";
 import { Status } from "../../entities/status";
 import { Task } from "../../entities/tasks";
 import { ITask } from "../../interface/task";
 import Conditions from '../conditions/conditions';
+import CONSTANTES from '../../config/constantes';
 
 
 export class TaskModel {
@@ -19,10 +20,11 @@ export class TaskModel {
           importance: Number(importance),
           status: Number(status),
           user_ref: user_id,
+          archived: 0
         }
       );
-      
     } catch (error) {
+      console.log(error);
       return null;
     }
   }
@@ -38,6 +40,7 @@ export class TaskModel {
             [literal('taskCategory.name'), 'Category'],
             [literal('taskImportance.name'), 'Importance'],
             [literal('taskStatus.name'), 'Status'],
+            'archived'
           ],
           where:{
             user_ref
@@ -62,7 +65,6 @@ export class TaskModel {
           raw: true
         }
       );
-
       if (tasksUser) return tasksUser;
       return [];
     } catch (error) {
@@ -96,6 +98,22 @@ export class TaskModel {
     return affectedCount;
   }
 
+  static archivedTask = async ( id:string ):Promise< number | string > => {
+    const task = await Task.findByPk(id);
+
+    if(!task) {
+      return CONSTANTES.NOT_FOUND
+    }
+    const currentArchivedValue = task.archived ?? 0;
+    const [ affectedCount ]:number[] =  await Task.update({
+        archived: currentArchivedValue === 0 ? 1 : 0
+      },
+      { where: { id } }
+    )
+    
+    return affectedCount;
+  }
+
   static getTaskId = async (id: string):Promise<Task | []> => {
     return await Task.findOne(
       { 
@@ -105,7 +123,8 @@ export class TaskModel {
           'description',
           [literal('taskCategory.name'), 'Category'],
           [literal('taskImportance.name'), 'Importance'],
-          [literal('taskStatus.name'), 'Status']
+          [literal('taskStatus.name'), 'Status'],
+          'archived',
         ],
         where: { id } ,
         include: [

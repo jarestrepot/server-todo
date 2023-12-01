@@ -7,7 +7,8 @@ const CONSTANTES = {
   SENT_LOG: 'sent',
   DATE_YEAR: `${date.getFullYear()}`,
   DATE_COMPLETE_: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
-  INCORRECT_VALUES: 'Unregistered user or incorrect fields'
+  INCORRECT_VALUES: 'Unregistered user or incorrect fields',
+  NOT_FOUND: 'Not found',
 };
 Object.freeze(CONSTANTES);
 

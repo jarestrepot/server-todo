@@ -4,17 +4,21 @@ require('dotenv').config();
 
 
 export const tokenSing = async ({name, email, user_id}: User) => {
-  return jwt.sign(
-    {
-      id: user_id,
-      name: name,
-      email,
-    },
-    process.env.SECRET_KEY ?? 'salleFron@Grupo02TheDreamTeam',
-    {
-      expiresIn: "24h"
-    }
-  )
+  try {
+    return jwt.sign(
+      {
+        id: user_id,
+        name: name,
+        email,
+      },
+      process.env.SECRET_KEY ?? 'salleFron@Grupo02TheDreamTeam',
+      {
+        expiresIn: "24h"
+      }
+    )
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 /**

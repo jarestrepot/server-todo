@@ -67,8 +67,10 @@ Task.init({
             key: 'user_id'
         }
     },
-    created: {
+    archived: {
         type: sequelize_1.DataTypes.TINYINT,
+        defaultValue: 0,
+        allowNull: true,
     }
 }, {
     sequelize: conection_1.default,

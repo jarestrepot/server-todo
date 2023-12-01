@@ -5,4 +5,5 @@ export interface ITask {
   category?: number;
   importance?: number;
   status?: number;
+  created?: number;
 }

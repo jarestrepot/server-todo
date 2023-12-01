@@ -17,13 +17,18 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 require('dotenv').config();
 const tokenSing = ({ name, email, user_id }) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    return jsonwebtoken_1.default.sign({
-        id: user_id,
-        name: name,
-        email,
-    }, (_a = process.env.SECRET_KEY) !== null && _a !== void 0 ? _a : 'salleFron@Grupo02TheDreamTeam', {
-        expiresIn: "24h"
-    });
+    try {
+        return jsonwebtoken_1.default.sign({
+            id: user_id,
+            name: name,
+            email,
+        }, (_a = process.env.SECRET_KEY) !== null && _a !== void 0 ? _a : 'salleFron@Grupo02TheDreamTeam', {
+            expiresIn: "24h"
+        });
+    }
+    catch (error) {
+        console.error(error);
+    }
 });
 exports.tokenSing = tokenSing;
 /**

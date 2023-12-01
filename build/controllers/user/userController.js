@@ -86,7 +86,8 @@ class UserServiceApp {
                         description: newTask.description,
                         Category,
                         Importance,
-                        Status
+                        Status,
+                        archived: newTask.archived
                     }
                 });
             }
@@ -129,6 +130,20 @@ class UserServiceApp {
                 if (!task)
                     return res.status(302).json({ msg: 'Task not found' });
                 return res.status(200).json({ task });
+            }
+            catch (error) {
+                return res.status(500).json({ Error: constantes_1.default.ERROR_SERVER });
+            }
+        });
+    }
+    static archivedTask({ params }, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = params;
+                const task = yield task_1.TaskModel.archivedTask(id);
+                if (typeof task === 'number' && task > 0)
+                    return res.status(200).json({ msg: 'Task updated successfully', task: yield task_1.TaskModel.getTaskId(id) });
+                return res.status(202).json({ msg: `Task not found` });
             }
             catch (error) {
                 return res.status(500).json({ Error: constantes_1.default.ERROR_SERVER });

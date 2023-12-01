@@ -20,6 +20,7 @@ const importanceTask_1 = require("../../entities/importanceTask");
 const status_1 = require("../../entities/status");
 const tasks_1 = require("../../entities/tasks");
 const conditions_1 = __importDefault(require("../conditions/conditions"));
+const constantes_1 = __importDefault(require("../../config/constantes"));
 class TaskModel {
 }
 exports.TaskModel = TaskModel;
@@ -33,9 +34,11 @@ TaskModel.createTask = ({ title, description, category, importance, status }, us
             importance: Number(importance),
             status: Number(status),
             user_ref: user_id,
+            archived: 0
         });
     }
     catch (error) {
+        console.log(error);
         return null;
     }
 });
@@ -49,6 +52,7 @@ TaskModel.userAndTask = (user_ref) => __awaiter(void 0, void 0, void 0, function
                 [(0, sequelize_1.literal)('taskCategory.name'), 'Category'],
                 [(0, sequelize_1.literal)('taskImportance.name'), 'Importance'],
                 [(0, sequelize_1.literal)('taskStatus.name'), 'Status'],
+                'archived'
             ],
             where: {
                 user_ref
@@ -98,16 +102,29 @@ TaskModel.updateTask = ({ id, title, description, category, importance, status }
     });
     return affectedCount;
 });
-TaskModel.getTaskId = (id) => __awaiter(void 0, void 0, void 0, function* () {
+TaskModel.archivedTask = (id) => __awaiter(void 0, void 0, void 0, function* () {
     var _b;
-    return (_b = yield tasks_1.Task.findOne({
+    const task = yield tasks_1.Task.findByPk(id);
+    if (!task) {
+        return constantes_1.default.NOT_FOUND;
+    }
+    const currentArchivedValue = (_b = task.archived) !== null && _b !== void 0 ? _b : 0;
+    const [affectedCount] = yield tasks_1.Task.update({
+        archived: currentArchivedValue === 0 ? 1 : 0
+    }, { where: { id } });
+    return affectedCount;
+});
+TaskModel.getTaskId = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    var _c;
+    return (_c = yield tasks_1.Task.findOne({
         attributes: [
             'id',
             'title',
             'description',
             [(0, sequelize_1.literal)('taskCategory.name'), 'Category'],
             [(0, sequelize_1.literal)('taskImportance.name'), 'Importance'],
-            [(0, sequelize_1.literal)('taskStatus.name'), 'Status']
+            [(0, sequelize_1.literal)('taskStatus.name'), 'Status'],
+            'archived',
         ],
         where: { id },
         include: [
@@ -128,5 +145,5 @@ TaskModel.getTaskId = (id) => __awaiter(void 0, void 0, void 0, function* () {
             }
         ],
         raw: true
-    })) !== null && _b !== void 0 ? _b : [];
+    })) !== null && _c !== void 0 ? _c : [];
 });

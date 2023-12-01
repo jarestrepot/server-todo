@@ -69,7 +69,8 @@ export class UserServiceApp {
           description: newTask.description,
           Category,
           Importance,
-          Status
+          Status,
+          archived: newTask.archived
         }
       });
     } catch (error) {
@@ -105,6 +106,17 @@ export class UserServiceApp {
       const task: Task | [] = await TaskModel.getTaskId(id);
       if(!task) return res.status(302).json({ msg: 'Task not found' });
       return res.status(200).json({ task });
+    } catch (error) {
+      return res.status(500).json({ Error: CONSTANTES.ERROR_SERVER });
+    }
+  }
+
+  static async archivedTask({ params }: Request, res: Response){
+    try {
+      const { id } = params;
+      const task: number | string  = await TaskModel.archivedTask(id)
+      if (typeof task === 'number' && task > 0 )  return res.status(200).json({ msg:'Task updated successfully' ,task: await TaskModel.getTaskId(id)})
+      return res.status(202).json({ msg: `Task not found` });
     } catch (error) {
       return res.status(500).json({ Error: CONSTANTES.ERROR_SERVER });
     }
