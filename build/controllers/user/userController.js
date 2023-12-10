@@ -178,5 +178,25 @@ class UserServiceApp {
             }
         });
     }
+    static confirmPassword({ params, body }, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userFind = yield userSql_1.UserModel.getUserIdMysql(params.id);
+                if (userFind instanceof user_1.User) {
+                    const checkedPasswordUser = {
+                        email: userFind.email,
+                        password: body.password
+                    };
+                    if (yield userSql_1.UserModel.loginUserMysql(checkedPasswordUser)) {
+                        return res.status(200).json({ msg: 'Password correct', found: true });
+                    }
+                }
+                return res.status(400).json({ msg: `User ${constantes_1.default.NOT_FOUND}`, found: false });
+            }
+            catch (error) {
+                return res.status(500).json({ Error: constantes_1.default.ERROR_SERVER });
+            }
+        });
+    }
 }
 exports.UserServiceApp = UserServiceApp;

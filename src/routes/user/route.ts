@@ -12,6 +12,7 @@ router.patch('/updateTask/:id', checkAuth, UserServiceApp.updateTask);
 router.get('/task/:id', checkAuth, UserServiceApp.getTask);
 router.patch('/modify/:id', checkAuth, UserServiceApp.modifyUser);
 router.patch('/arcivedTask/:id', checkAuth, UserServiceApp.archivedTask);
+router.post('/checkedPassword/:id', checkAuth, UserServiceApp.confirmPassword)
 router.delete('/delete/:id', checkAuth, UserServiceApp.deleteUser);
 
 

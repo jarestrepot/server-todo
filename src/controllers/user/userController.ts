@@ -11,6 +11,7 @@ import { ITask } from '../../interface/task';
 import CONSTANTES from '../../config/constantes';
 import { IError } from '../../interface/error';
 import { IplugisTask } from '../../interface/pluginsTask';
+import { IregisterUser } from '../../interface/user';
 export class UserServiceApp {
 
   static async taskPlugins(req: Request, res: Response){
@@ -140,6 +141,23 @@ export class UserServiceApp {
       const { id } = params;
       if (await UserModel.deleteUser(id) > 0) return res.status(200).json({ msg: `User delete successfully`});
       return res.status(203).json({ Error: `User not found`})
+    } catch (error) {
+      return res.status(500).json({ Error: CONSTANTES.ERROR_SERVER });
+    }
+  }
+
+  static async confirmPassword({ params, body }:Request, res:Response) {
+    try{
+      const userFind:User | null = await UserModel.getUserIdMysql(params.id)
+      if (userFind instanceof User){
+        const checkedPasswordUser: IregisterUser = {
+          email: userFind.email,
+          password: body.password
+        }
+        if (await UserModel.loginUserMysql(checkedPasswordUser)){
+          return res.status(200).json({ msg: 'Password correct', found: true })
+        }
+      } return res.status(400).json({ msg: `User ${CONSTANTES.NOT_FOUND}`, found: false });
     } catch (error) {
       return res.status(500).json({ Error: CONSTANTES.ERROR_SERVER });
     }
