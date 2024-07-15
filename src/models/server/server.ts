@@ -44,7 +44,7 @@ export class Server {
       allowedHeaders: ['Content-Type', 'authorization']
     });
     // Define routes
-    this.app.use('/user', cors());
+    this.app.use('/user', userCors);
     this.app.use('/user', userRouter);
   }
   /**

@@ -52,7 +52,7 @@ class Server {
             allowedHeaders: ['Content-Type', 'authorization']
         });
         // Define routes
-        this.app.use('/user', (0, cors_1.default)());
+        this.app.use('/user', userCors);
         this.app.use('/user', route_1.default);
     }
     /**

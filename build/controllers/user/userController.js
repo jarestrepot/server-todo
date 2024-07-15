@@ -21,6 +21,7 @@ const category_1 = require("../mater-data/category");
 const importance_1 = require("../mater-data/importance");
 const status_1 = require("../mater-data/status");
 const constantes_1 = __importDefault(require("../../config/constantes"));
+const auth_1 = require("../../helpers/auth");
 class UserServiceApp {
     static taskPlugins(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -196,6 +197,15 @@ class UserServiceApp {
             catch (error) {
                 return res.status(500).json({ Error: constantes_1.default.ERROR_SERVER });
             }
+        });
+    }
+    static updateImage({ body, params, file }, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // console.log({ body, params: params.id, file });
+            if (file) {
+                (0, auth_1.saveImage)(file, params.id);
+            }
+            return res.status(200).json({});
         });
     }
 }

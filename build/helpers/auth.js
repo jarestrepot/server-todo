@@ -8,9 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkAuth = void 0;
+exports.saveImage = exports.checkAuth = void 0;
 const generateTokenUser_1 = require("./generateTokenUser");
+const node_fs_1 = __importDefault(require("node:fs"));
+const constantes_1 = __importDefault(require("../config/constantes"));
+const path_1 = __importDefault(require("path"));
 /**
  * Verify that the user has the signing token
  * @param header Header with token
@@ -28,3 +34,26 @@ const checkAuth = ({ headers }, res, next) => __awaiter(void 0, void 0, void 0, 
     return res.status(401).json({ Error: ' Acces denied ❌' });
 });
 exports.checkAuth = checkAuth;
+const saveImage = (file, id) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!file) {
+        return;
+    }
+    const { originalname, path: tempPath } = file;
+    let [name, stay] = originalname.split('.');
+    const newDirPath = path_1.default.join(constantes_1.default.RUTA_IMAGE_DEFAULT, id);
+    const newPath = path_1.default.join(newDirPath, `avatar.${stay}`);
+    try {
+        // Asegúrate de que el directorio de destino exista
+        if (!node_fs_1.default.existsSync(newDirPath)) {
+            node_fs_1.default.mkdirSync(newDirPath, { recursive: true });
+        }
+        // Copiar el archivo a la nueva ubicación
+        node_fs_1.default.copyFileSync(tempPath, newPath);
+        // Eliminar el archivo temporal
+        node_fs_1.default.unlinkSync(tempPath);
+    }
+    catch (error) {
+        console.error('Error saving file:', error);
+    }
+});
+exports.saveImage = saveImage;

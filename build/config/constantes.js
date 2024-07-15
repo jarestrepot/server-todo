@@ -11,6 +11,8 @@ const CONSTANTES = {
     DATE_COMPLETE_: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
     INCORRECT_VALUES: 'Unregistered user or incorrect fields',
     NOT_FOUND: 'Not found',
+    RUTA_IMAGE_DEFAULT: './uploads/',
+    IMAGE_USER: 'imagePerfil'
 };
 Object.freeze(CONSTANTES);
 exports.default = CONSTANTES;

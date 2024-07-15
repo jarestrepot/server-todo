@@ -12,6 +12,7 @@ import CONSTANTES from '../../config/constantes';
 import { IError } from '../../interface/error';
 import { IplugisTask } from '../../interface/pluginsTask';
 import { IregisterUser } from '../../interface/user';
+import { saveImage } from '../../helpers/auth';
 export class UserServiceApp {
 
   static async taskPlugins(req: Request, res: Response){
@@ -161,6 +162,14 @@ export class UserServiceApp {
     } catch (error) {
       return res.status(500).json({ Error: CONSTANTES.ERROR_SERVER });
     }
+  }
+
+  static async updateImage({ body, params, file }: Request, res: Response){
+    // console.log({ body, params: params.id, file });
+    if(file){
+      saveImage(file, params.id);
+    }
+    return res.status(200).json({});
   }
 
 }
