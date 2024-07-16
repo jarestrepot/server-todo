@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import multer, { Field, Multer, Options } from 'multer';
+import multer, { Field, FileFilterCallback, Multer, Options } from 'multer';
 import CONSTANTES from '../config/constantes';
 
 

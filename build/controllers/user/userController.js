@@ -199,13 +199,47 @@ class UserServiceApp {
             }
         });
     }
-    static updateImage({ body, params, file }, res) {
+    static updateImage({ params, file, headers }, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            // console.log({ body, params: params.id, file });
-            if (file) {
-                (0, auth_1.saveImage)(file, params.id);
+            // let binary = headers['content-type']?.split('boundary=')[1];
+            try {
+                const user = yield userSql_1.UserModel.getUserIdMysql(params.id);
+                if (!user)
+                    return res.status(404).json({ msg: `User ${constantes_1.default.NOT_FOUND}`, found: false });
+                if (file) {
+                    let dir = user ? UserServiceApp.createFormatDirImage(user) : params.id;
+                    (0, auth_1.saveImage)(file, dir);
+                }
+                return res.status(200).json({ msg: 'Image saved successfully' });
             }
-            return res.status(200).json({});
+            catch (error) {
+                return res.status(500).json({ Error: "Internal server error" });
+            }
+        });
+    }
+    /**
+     * Function to create the directory where the user's avatar image is saved
+     * @param user
+     * @returns string
+     */
+    static createFormatDirImage(user) {
+        return `${user.user_id.replace(/-/g, "")}`;
+    }
+    static getImagenUser({ params }, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield userSql_1.UserModel.getUserIdMysql(params.id);
+                if (user) {
+                    let pathFile = yield (0, auth_1.getImageByPath)(UserServiceApp.createFormatDirImage(user));
+                    if (pathFile) {
+                        return res.status(200).sendFile(pathFile);
+                    }
+                    return res.status(404).json({ msg: "Image not found" });
+                }
+            }
+            catch (error) {
+                return res.status(500).json({ Error: "Internal server error" });
+            }
         });
     }
 }

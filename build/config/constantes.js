@@ -12,7 +12,10 @@ const CONSTANTES = {
     INCORRECT_VALUES: 'Unregistered user or incorrect fields',
     NOT_FOUND: 'Not found',
     RUTA_IMAGE_DEFAULT: './uploads/',
-    IMAGE_USER: 'imagePerfil'
+    IMAGE_USER: 'imagePerfil',
+    MIMETYPES: ['image/png', 'image/jpg', 'image/jpeg'],
+    MIME_EXTENSSIONS: ['.jpg', '.png', '.jpeg'],
+    NAME_DEFAULT_IMAGE: 'avatar'
 };
 Object.freeze(CONSTANTES);
 exports.default = CONSTANTES;

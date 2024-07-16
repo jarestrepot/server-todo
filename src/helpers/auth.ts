@@ -36,13 +36,31 @@ export const saveImage = async (file: Express.Multer.File, id: string) => {
     if (!fs.existsSync(newDirPath)) {
       fs.mkdirSync(newDirPath, { recursive: true });
     }
-
     // Copiar el archivo a la nueva ubicación
     fs.copyFileSync(tempPath, newPath);
-
     // Eliminar el archivo temporal
     fs.unlinkSync(tempPath);
   } catch (error) {
     console.error('Error saving file:', error);
   }
+};
+
+export const getImageByPath = async (id:string):Promise<string | null> => {
+
+  for (let fileName of CONSTANTES.MIME_EXTENSSIONS){
+    const filePath = path.join(CONSTANTES.RUTA_IMAGE_DEFAULT, id, `${CONSTANTES.NAME_DEFAULT_IMAGE}${fileName}`);
+    try {
+      // Verificar si el archivo existe
+      await fs.promises.access(filePath, fs.constants.F_OK);
+      // Devolver la ruta absoluta del archivo
+      return getAbsoluteFilePath(process.cwd(), `${filePath}`);
+    } catch (err) {
+      console.error('Error accessing file:', err);
+    }
+  }
+  return null;
+}
+
+const getAbsoluteFilePath = (rootPath: string, relativePath: string): string => {
+  return path.join(rootPath, relativePath);
 };

@@ -12,7 +12,7 @@ import CONSTANTES from '../../config/constantes';
 import { IError } from '../../interface/error';
 import { IplugisTask } from '../../interface/pluginsTask';
 import { IregisterUser } from '../../interface/user';
-import { saveImage } from '../../helpers/auth';
+import { getImageByPath, saveImage } from '../../helpers/auth';
 export class UserServiceApp {
 
   static async taskPlugins(req: Request, res: Response){
@@ -164,12 +164,43 @@ export class UserServiceApp {
     }
   }
 
-  static async updateImage({ body, params, file }: Request, res: Response){
-    // console.log({ body, params: params.id, file });
-    if(file){
-      saveImage(file, params.id);
+  static async updateImage({ params, file, headers }: Request, res: Response){
+    // let binary = headers['content-type']?.split('boundary=')[1];
+    try {
+      const user = await UserModel.getUserIdMysql(params.id);
+      if (!user) return res.status(404).json({ msg: `User ${CONSTANTES.NOT_FOUND}`, found: false })
+      if(file){
+        let dir: string = user ? UserServiceApp.createFormatDirImage(user) : params.id;
+        saveImage(file, dir);
+      }
+      return res.status(200).json({ msg: 'Image saved successfully'});
+    } catch (error) {
+      return res.status(500).json({ Error: "Internal server error" })
     }
-    return res.status(200).json({});
+  }
+
+  /**
+   * Function to create the directory where the user's avatar image is saved
+   * @param user 
+   * @returns string
+   */
+  private static createFormatDirImage(user:User):string{
+    return `${user.user_id.replace(/-/g, "")}`
+  }
+
+  static async getImagenUser({ params }: Request, res: Response){
+    try {
+      const user = await UserModel.getUserIdMysql(params.id);
+      if(user){
+        let pathFile = await getImageByPath(UserServiceApp.createFormatDirImage(user));
+        if(pathFile){
+          return res.status(200).sendFile(pathFile);
+        }
+        return res.status(404).json({ msg: "Image not found" });
+      }
+    } catch (error) {
+      return res.status(500).json({ Error: "Internal server error" });
+    }
   }
 
 }

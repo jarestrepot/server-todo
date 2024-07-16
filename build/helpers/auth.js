@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.saveImage = exports.checkAuth = void 0;
+exports.getImageByPath = exports.saveImage = exports.checkAuth = void 0;
 const generateTokenUser_1 = require("./generateTokenUser");
 const node_fs_1 = __importDefault(require("node:fs"));
 const constantes_1 = __importDefault(require("../config/constantes"));
@@ -57,3 +57,22 @@ const saveImage = (file, id) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.saveImage = saveImage;
+const getImageByPath = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    for (let fileName of constantes_1.default.MIME_EXTENSSIONS) {
+        const filePath = path_1.default.join(constantes_1.default.RUTA_IMAGE_DEFAULT, id, `${constantes_1.default.NAME_DEFAULT_IMAGE}${fileName}`);
+        try {
+            // Verificar si el archivo existe
+            yield node_fs_1.default.promises.access(filePath, node_fs_1.default.constants.F_OK);
+            // Devolver la ruta absoluta del archivo
+            return getAbsoluteFilePath(process.cwd(), `${filePath}`);
+        }
+        catch (err) {
+            console.error('Error accessing file:', err);
+        }
+    }
+    return null;
+});
+exports.getImageByPath = getImageByPath;
+const getAbsoluteFilePath = (rootPath, relativePath) => {
+    return path_1.default.join(rootPath, relativePath);
+};

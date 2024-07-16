@@ -252,3 +252,42 @@ https://server-todo-list-app.cleverapps.io/user/delete/${id_user}
 ```
 
 <hr>
+
+
+**POST**🌐
+
+```hash
+https://server-todo-list-app.cleverapps.io/user/image/${id_user}
+```
+
+
+**RESPONSE** ✅
+```json
+  "status": 200
+  "msg": "Image saved successfully"
+```
+
+**RESPONSE** ❌
+```json
+  "status": 404
+  "msg": "User not found"
+```
+
+**GET**🌐
+```hash
+https://server-todo-list-app.cleverapps.io/user/image/${id_user}
+```
+
+
+**RESPONSE** ✅
+```json
+  "status": 200
+  "pathFile": pathFile
+```
+
+
+**RESPONSE** ❌
+```json
+  "status": 404
+  "msg": "Image not found"
+```
