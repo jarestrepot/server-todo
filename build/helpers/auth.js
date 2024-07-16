@@ -43,13 +43,12 @@ const saveImage = (file, id) => __awaiter(void 0, void 0, void 0, function* () {
     const newDirPath = path_1.default.join(constantes_1.default.RUTA_IMAGE_DEFAULT, id);
     const newPath = path_1.default.join(newDirPath, `avatar.${stay}`);
     try {
-        // Asegúrate de que el directorio de destino exista
         if (!node_fs_1.default.existsSync(newDirPath)) {
             node_fs_1.default.mkdirSync(newDirPath, { recursive: true });
         }
-        // Copiar el archivo a la nueva ubicación
+        // Copy the file to the new location
         node_fs_1.default.copyFileSync(tempPath, newPath);
-        // Eliminar el archivo temporal
+        // Delete the temporary file
         node_fs_1.default.unlinkSync(tempPath);
     }
     catch (error) {
@@ -61,9 +60,9 @@ const getImageByPath = (id) => __awaiter(void 0, void 0, void 0, function* () {
     for (let fileName of constantes_1.default.MIME_EXTENSSIONS) {
         const filePath = path_1.default.join(constantes_1.default.RUTA_IMAGE_DEFAULT, id, `${constantes_1.default.NAME_DEFAULT_IMAGE}${fileName}`);
         try {
-            // Verificar si el archivo existe
+            // Check if the file exists, at the specified path.
             yield node_fs_1.default.promises.access(filePath, node_fs_1.default.constants.F_OK);
-            // Devolver la ruta absoluta del archivo
+            // Return the absolute path of the file
             return getAbsoluteFilePath(process.cwd(), `${filePath}`);
         }
         catch (err) {
@@ -73,6 +72,12 @@ const getImageByPath = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return null;
 });
 exports.getImageByPath = getImageByPath;
+/**
+ *
+ * @param rootPath R
+ * @param relativePath
+ * @returns
+ */
 const getAbsoluteFilePath = (rootPath, relativePath) => {
     return path_1.default.join(rootPath, relativePath);
 };
